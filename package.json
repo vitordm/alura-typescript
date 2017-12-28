@@ -1,0 +1,24 @@
+{
+  "name": "alurabank",
+  "version": "1.0.0",
+  "description": "Curso Alura de TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "start": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitordm/alura-typescript.git"
+  },
+  "author": "Vitor Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitordm/alura-typescript/issues"
+  },
+  "homepage": "https://github.com/vitordm/alura-typescript#readme",
+  "devDependencies": {
+    "typescript": "^2.3.2"
+  }
+}
