@@ -13,14 +13,14 @@ class NegociacaoView extends View<Negociacoes> {
                 </tr>
             </thead>
             <tbody>
-                ${model.toArray().map(n => {
+                ${model.toArray().map(n => 
                     `<tr>
                         <td>${n.data.getDate()}/${n.data.getMonth() +1}/${n.data.getFullYear()}</td>
                         <td>${n.quantidade}</td>
                         <td>${n.valor}</td>
                         <td>${n.volume}</td>
                     </tr>`
-                })}
+                ).join("")}
             </tbody>
             <tfoot>
             </tfoot>
