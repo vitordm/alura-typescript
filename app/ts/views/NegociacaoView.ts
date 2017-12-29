@@ -1,14 +1,7 @@
 
-class NegociacaoView extends View {
-    _elemento: Element;
-
-    constructor(seletor: string) {
-        super();
-        this._elemento = document.querySelector(seletor);
-
-    }
-
-    template(): string {
+class NegociacaoView extends View<Negociacoes> {
+    
+    template(model : Negociacoes): string {
         return `
         <table class="table table-hover table-bordered">
             <thead>
@@ -20,6 +13,14 @@ class NegociacaoView extends View {
                 </tr>
             </thead>
             <tbody>
+                ${model.toArray().map(n => {
+                    `<tr>
+                        <td>${n.data.getDate()}/${n.data.getMonth() +1}/${n.data.getFullYear()}</td>
+                        <td>${n.quantidade}</td>
+                        <td>${n.valor}</td>
+                        <td>${n.volume}</td>
+                    </tr>`
+                })}
             </tbody>
             <tfoot>
             </tfoot>
@@ -27,8 +28,8 @@ class NegociacaoView extends View {
         `;
     }
 
-    update() : void {
-        this._elemento.innerHTML = this.template();
+    update(model : Negociacoes) : void {
+        this._elemento.innerHTML = this.template(model);
     }
 
 }

@@ -1,5 +1,8 @@
 class MensagemView extends View {
-    template() {
-        throw new Error("Method not implemented.");
+    update(model) {
+        this._elemento.innerHTML = this.template(model);
+    }
+    template(model) {
+        return `<p class="alert alert-info">${model}</p>`;
     }
 }
