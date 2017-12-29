@@ -29,7 +29,8 @@ class NegociacaoView extends View<Negociacoes> {
     }
 
     update(model : Negociacoes) : void {
-        this._elemento.innerHTML = this.template(model);
+        //this._elemento.innerHTML = this.template(model);
+        this._elemento.html(this.template(model));
     }
 
 }
