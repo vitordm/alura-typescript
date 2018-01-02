@@ -1,18 +1,22 @@
 import { Negociacao, Negociacoes } from "../models/index";
 import { MensagemView, NegociacaoView } from "../views/index";
+import { domInject } from "../helpers/decorators/index";
 
 export class NegociacaoController {
+    @domInject("#data")
     private _inputData: JQuery;  //HTMLInputElement;
+    @domInject("#quantidade")
     private _inputQuantidade: JQuery;  //HTMLInputElement;
+    @domInject("#valor")
     private _inputValor: JQuery;  //HTMLInputElement;
     private _negociacoes = new Negociacoes();
     private _negociacaoView = new NegociacaoView("#negociacoesView");
     private _mensagemView = new MensagemView("#mensagemView");
 
     constructor() {
-        this._inputData = $('#data'); //<HTMLInputElement>document.querySelector('#data');
-        this._inputQuantidade = $('#quantidade'); //<HTMLInputElement>document.querySelector('#quantidade');
-        this._inputValor = $('#valor')//<HTMLInputElement>document.querySelector('#valor');
+        //this._inputData = $('#data'); //<HTMLInputElement>document.querySelector('#data');
+        //this._inputQuantidade = $('#quantidade'); //<HTMLInputElement>document.querySelector('#quantidade');
+        //this._inputValor = $('#valor')//<HTMLInputElement>document.querySelector('#valor');
         this._negociacaoView.update(this._negociacoes);
     }
 
@@ -20,7 +24,7 @@ export class NegociacaoController {
         event.preventDefault();
         let data = new Date(this._inputData.val().replace(/-/g, ","));
 
-        if(!this.isDiaUtil(data)) {
+        if (!this.isDiaUtil(data)) {
             this._mensagemView.update("Negociações so poderão ser incluidas em dias úteis!");
             return;
         }
@@ -44,7 +48,7 @@ export class NegociacaoController {
 enum DiaDaSemana {
     Domingo,
     Segunda,
-    Terca, 
+    Terca,
     Quarta,
     Quinta,
     Sexta,
