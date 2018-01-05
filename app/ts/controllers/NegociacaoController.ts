@@ -1,6 +1,7 @@
-import { Negociacao, Negociacoes } from "../models/index";
+import { Negociacao, Negociacoes, NegociacaoParcial } from "../models/index";
 import { MensagemView, NegociacaoView } from "../views/index";
-import { domInject } from "../helpers/decorators/index";
+import { domInject, throttle } from "../helpers/decorators/index";
+import { NegociacaoService } from "../services/index";
 
 export class NegociacaoController {
     @domInject("#data")
@@ -12,6 +13,7 @@ export class NegociacaoController {
     private _negociacoes = new Negociacoes();
     private _negociacaoView = new NegociacaoView("#negociacoesView");
     private _mensagemView = new MensagemView("#mensagemView");
+    private _service = new NegociacaoService();
 
     constructor() {
         //this._inputData = $('#data'); //<HTMLInputElement>document.querySelector('#data');
@@ -20,8 +22,8 @@ export class NegociacaoController {
         this._negociacaoView.update(this._negociacoes);
     }
 
-    adiciona(event: Event) {
-        event.preventDefault();
+    @throttle()
+    adiciona() {
         let data = new Date(this._inputData.val().replace(/-/g, ","));
 
         if (!this.isDiaUtil(data)) {
@@ -38,6 +40,22 @@ export class NegociacaoController {
         this._negociacoes.add(negociacao);
         this._negociacaoView.update(this._negociacoes);
         this._mensagemView.update("Negociação adicionado com êxito!");
+    }
+
+    @throttle()
+    importaDados() {
+
+        this._service.obterNegociacoes((res : Response) => {
+            if (res.ok)
+                return res;
+            throw new Error(res.statusText);
+        })
+        .then(dados => { 
+            dados.forEach(n => this._negociacoes.add(n));
+            this._negociacaoView.update(this._negociacoes);
+        })
+        .catch(err => console.log(err));
+
     }
 
     private isDiaUtil(data: Date) {
