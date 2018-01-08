@@ -12,7 +12,11 @@ export class NegociacaoService {
             .then(res => res.json())
             .then((dados : NegociacaoParcial[]) => 
                 dados.map(n => new Negociacao(new Date(), n.vezes, n.montante))  
-            );
+            )
+            .catch(err => {
+                console.log(err);
+                throw new Error("Não foi possível importar!");
+            });
         
     }
 }
