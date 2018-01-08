@@ -43,23 +43,24 @@ export class NegociacaoController {
     }
 
     @throttle()
-    importaDados() {
+    async importaDados() {
 
-        this._service.obterNegociacoes((res : Response) => {
-            if (res.ok)
-                return res;
-            throw new Error(res.statusText);
-        })
-        .then(toImportar => { 
+        try {
+            const toImportar = await this._service.obterNegociacoes((res: Response) => {
+                if (res.ok)
+                    return res;
+                throw new Error(res.statusText);
+            });
+
             const negociacoesJaImportadas = this._negociacoes.toArray();
             toImportar.filter(negociacao =>
                 !negociacoesJaImportadas.some(jaImportada => negociacao.equals(jaImportada))
             ).forEach(n => this._negociacoes.add(n));
 
             this._negociacaoView.update(this._negociacoes);
-        })
-        .catch(err => this._mensagemView.update(err.message));
-
+        } catch (err) {
+            this._mensagemView.update(err.message)
+        }
     }
 
     private isDiaUtil(data: Date) {
